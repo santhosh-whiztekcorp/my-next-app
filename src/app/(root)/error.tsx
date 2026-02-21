@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { AlertCircle, RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  const router = useRouter();
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
@@ -24,7 +25,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
           <RefreshCcw className="mr-2 h-4 w-4 transition-transform duration-500 group-hover:rotate-180" />
           Try again
         </Button>
-        <Button onClick={() => (window.location.href = '/')} variant="outline" size="lg">
+        <Button onClick={() => router.push('/')} variant="outline" size="lg">
           Go back home
         </Button>
       </div>
