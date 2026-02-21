@@ -6,17 +6,18 @@ A modern, high-performance web application built for speed, scalability, and dev
 
 ## 🛠️ Tech Stack
 
-| Tech                | Role          | Features                                       |
-| :------------------ | :------------ | :--------------------------------------------- |
-| **Next.js 16**      | Framework     | Turbopack, App Router, SSR/SSG.                |
-| **Tailwind CSS v4** | Styling       | Modern utility-first CSS with native at-rules. |
-| **TypeScript**      | Language      | Type-safe development and static analysis.     |
-| **TanStack Query**  | Data Fetching | Powerful server-state management.              |
-| **Zustand**         | State         | Lightweight and scalable global state.         |
-| **Axios**           | HTTP Client   | Promise-based requests for reliable API calls. |
-| **Vitest**          | Testing       | Fast, modern unit and component testing.       |
-| **Shadcn UI**       | Components    | Accessible, beautifully designed primitives.   |
-| **Lucide**          | Icons         | Clean and consistent icon library.             |
+| Tech                | Role          | Features                                        |
+| :------------------ | :------------ | :---------------------------------------------- |
+| **Next.js 16**      | Framework     | Turbopack, App Router, SSR/SSG.                 |
+| **Tailwind CSS v4** | Styling       | Modern utility-first CSS with native at-rules.  |
+| **TypeScript**      | Language      | Type-safe development and static analysis.      |
+| **TanStack Query**  | Data Fetching | Singleton pattern for stable state management.  |
+| **Zustand**         | State         | Lightweight and scalable global state.          |
+| **Axios**           | HTTP Client   | Promise-based requests with auto-refresh logic. |
+| **cookies-next**    | Cookies       | Unified cookie access for Client & Server.      |
+| **Vitest**          | Testing       | Fast, modern unit and component testing.        |
+| **Shadcn UI**       | Components    | Accessible, beautifully designed primitives.    |
+| **Lucide**          | Icons         | Clean and consistent icon library.              |
 
 ## 🚀 Getting Started
 
@@ -77,7 +78,12 @@ Each feature is localized within its own directory under `src/modules/` (or simi
 
 ```text
 src/
+  ├── app/        # Next.js App Router (pages & layouts)
   ├── components/ # Shared UI components (shadcn)
+  ├── constants/  # Centralized app configuration & keys
+  ├── lib/        # Shared libraries (api-client, query-client)
+  ├── providers/  # Application-wide context providers
+  ├── types/      # Centralized TypeScript definitions
   └── modules/
       └── [feature-name]/
           ├── components/ # Module-specific components
@@ -91,6 +97,18 @@ src/
 - **High Cohesion**: Related logic stays together.
 - **Low Coupling**: Features don't leak internals to other parts of the app.
 - **Scalability**: New features can be added without bloating shared folders.
+
+### 🔌 Universal API Client
+
+Our `apiClient` (Axios) is designed to work in both Client and Server Components seamlessly. It uses `cookies-next` for authentication and includes an automatic refresh token flow with request queuing.
+
+### 🏗️ Singleton QueryClient
+
+To ensure stability across re-renders in Next.js and prevent data leakage on the server, we use a Singleton pattern for the `QueryClient`. This ensures a single browser instance while providing fresh instances for every server request.
+
+### 📐 Centralized Constants & Types
+
+We centralize `COOKIE_KEYS`, `API_ROUTES`, and shared `Interfaces` in dedicated folders. This eliminates "magic strings" and makes the codebase highly maintainable.
 
 ---
 
@@ -122,7 +140,3 @@ The easiest way to deploy is through [Vercel](https://vercel.com/new).
 ```bash
 npm run build
 ```
-
----
-
-_Generated with ❤️ by Antigravity_
